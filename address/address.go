@@ -7,6 +7,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/uber/h3-go/v4"
 	"googlemaps.github.io/maps"
 )
 
@@ -38,5 +39,13 @@ func GeocodeAdress(c *maps.Client, address string) {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(res[0].Geometry.Location.Lat, res[0].Geometry.Location.Lng)
+	lat := res[0].Geometry.Location.Lat
+	lng := res[0].Geometry.Location.Lng
+
+	latLng := h3.NewLatLng(lat, lng)
+	resolution := 15 // between 0 (biggest cell) and 15 (smallest cell)
+
+	cell := h3.LatLngToCell(latLng, resolution)
+
+	fmt.Printf("%s\n", cell)
 }

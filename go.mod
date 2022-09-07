@@ -2,7 +2,10 @@ module address2cell
 
 go 1.18
 
-require googlemaps.github.io/maps v1.3.2
+require (
+	github.com/uber/h3-go/v4 v4.0.0-20220827183913-1665ba6cc1be
+	googlemaps.github.io/maps v1.3.2
+)
 
 require (
 	github.com/google/uuid v1.1.1 // indirect
