@@ -41,7 +41,7 @@ func GeocodeAdress(c *maps.Client, address string) string {
 	res, err := c.Geocode(context.Background(), r)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return ""
 	}
 	lat := res[0].Geometry.Location.Lat
 	lng := res[0].Geometry.Location.Lng
