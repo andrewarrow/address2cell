@@ -4,13 +4,14 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"strings"
 
 	"googlemaps.github.io/maps"
 )
 
 func Process(body string) {
-	c, err := maps.NewClient(maps.WithAPIKey("Insert-API-Key-Here"))
+	c, err := maps.NewClient(maps.WithAPIKey(os.Getenv("GOOGLE_GEO")))
 	if err != nil {
 		log.Fatalf("fatal error: %s", err)
 		return
