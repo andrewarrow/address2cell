@@ -1,8 +1,8 @@
 package main
 
 import (
+	"address2cell/address"
 	"address2cell/files"
-	"fmt"
 	"math/rand"
 	"os"
 	"time"
@@ -19,7 +19,7 @@ func main() {
 
 	if command == "process" {
 		file := os.Args[2]
-		fmt.Println(files.ReadFile(file))
+		address.Process(files.ReadFile(file))
 	} else if command == "help" {
 		PrintHelp()
 	}
