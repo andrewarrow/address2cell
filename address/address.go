@@ -1,6 +1,7 @@
 package address
 
 import (
+	"address2cell/files"
 	"context"
 	"fmt"
 	"log"
@@ -19,17 +20,20 @@ func Process(body string) {
 	}
 
 	lines := strings.Split(body, "\n")
+	buffer := []string{}
 	for _, line := range lines {
 		trimmedLine := strings.TrimSpace(line)
 		if trimmedLine == "" {
 			continue
 		}
-		fmt.Println(trimmedLine)
-		GeocodeAdress(c, trimmedLine)
+		cell := GeocodeAdress(c, trimmedLine)
+		fmt.Println(cell)
+		buffer = append(buffer, cell)
 	}
+	files.SaveFile("results.txt", strings.Join(buffer, "\n"))
 }
 
-func GeocodeAdress(c *maps.Client, address string) {
+func GeocodeAdress(c *maps.Client, address string) string {
 	r := &maps.GeocodingRequest{
 		Address: address,
 	}
@@ -43,9 +47,9 @@ func GeocodeAdress(c *maps.Client, address string) {
 	lng := res[0].Geometry.Location.Lng
 
 	latLng := h3.NewLatLng(lat, lng)
-	resolution := 15 // between 0 (biggest cell) and 15 (smallest cell)
+	resolution := 9 // between 0 (biggest cell) and 15 (smallest cell)
 
 	cell := h3.LatLngToCell(latLng, resolution)
 
-	fmt.Printf("%s\n", cell)
+	return fmt.Sprintf("%s", cell)
 }
